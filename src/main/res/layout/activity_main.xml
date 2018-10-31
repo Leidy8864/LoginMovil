@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/buildimg">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bgtrans">
+
+        <customfonts.MyTextView
+            android:id="@+id/signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INICIAR SESION"
+            android:textSize="25dp"
+            android:textColor="#54abee"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="45dp"/>
+
+        <TextView
+            android:id="@+id/ozzon"
+            android:layout_width="218dp"
+            android:layout_height="62dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_logo_tecsup" />
+
+        <customfonts.MyTextView
+            android:id="@+id/acc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="92dp"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="¿Ya tienes una cuenta?"
+            android:textColor="#c4c5c9"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/get"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="130dp"
+            android:background="@drawable/roundedrect"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="140dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="1dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:srcCompat="@drawable/rect1"/>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="49dp"
+                    android:layout_gravity="center"
+                    android:paddingLeft="3dp"
+                    app:srcCompat="@drawable/ic_list"
+                    tools:ignore="VectorDrawableCompat" />
+            </FrameLayout>
+
+            <customfonts.MyTextView
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrarse"
+                android:textSize="22dp"
+                android:textColor="#fff"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

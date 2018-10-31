@@ -17,12 +17,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import pe.leidy_cs.proyectointegrador.clases.Estudiante;
+import pe.leidy_cs.proyectointegrador.clases.Alumno;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText editTextNombre, editTextCodigo, editTextCorreo;
-    String nombre, codigo, correo;
-    Estudiante estudiante;
+    String nombres, codigo, correo;
+    Alumno Alumno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         this.codigo = bundle.getString("codigo");
-        this.nombre = bundle.getString("nombre");
+        this.nombres = bundle.getString("nombres");
         this.correo = bundle.getString("correo");
 
         this.editTextCodigo = (EditText) findViewById(R.id.textCodigo);
@@ -38,15 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
         this.editTextCorreo = (EditText) findViewById(R.id.textCorreo);
 
         editTextCodigo.setText(codigo);
-        editTextNombre.setText(nombre);
+        editTextNombre.setText(nombres);
         editTextCorreo.setText(correo);
     }
 
     public void btn_clickEditarPersona(View view){
-        estudiante = new Estudiante();
-        estudiante.setId_est(editTextCodigo.getText().toString().trim());
-        estudiante.setNombre_est(editTextNombre.getText().toString().trim());
-        estudiante.setCorreo_est(editTextCorreo.getText().toString().trim());
+        Alumno = new Alumno();
+        Alumno.setCodigo(editTextCodigo.getText().toString().trim());
+        Alumno.setNombres(editTextNombre.getText().toString().trim());
+        Alumno.setCorreo(editTextCorreo.getText().toString().trim());
         new ActualizarPersona().execute();
     }
 
@@ -58,14 +58,14 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public Boolean doInBackground(Void... params) {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPut httpPut = new HttpPut("http://192.168.0.7:9090/rest/estudiantes/"+codigo.trim()+"/");
+            HttpPut httpPut = new HttpPut("http://tercerintento-marco121942.c9users.io:8080/rest/alumnos/"+codigo.trim()+"/");
             httpPut.setHeader("content-type", "application/json");
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("id_est", estudiante.getId_est());
-                jsonObject.put("nombre_est", estudiante.getNombre_est());
-                jsonObject.put("correo_est", estudiante.getCorreo_est());
+                jsonObject.put("codigo", Alumno.getCodigo());
+                jsonObject.put("nombres", Alumno.getNombres());
+                jsonObject.put("correo", Alumno.getCorreo());
 
                 StringEntity stringEntity = new StringEntity(jsonObject.toString());
                 httpPut.setEntity(stringEntity);
@@ -96,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public Boolean doInBackground(Void... voids) {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpDelete httpDelete = new HttpDelete("http://192.168.0.7:9090/rest/estudiantes/"+codigo.trim()+"/");
+            HttpDelete httpDelete = new HttpDelete("http://tercerintento-marco121942.c9users.io:8080/rest/alumnos/"+codigo.trim()+"/");
             httpDelete.setHeader("Content-Type", "application/json");
 
             try {

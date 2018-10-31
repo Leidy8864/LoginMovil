@@ -15,14 +15,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
-import pe.leidy_cs.proyectointegrador.clases.Estudiante;
+import pe.leidy_cs.proyectointegrador.clases.Alumno;
 
 public class ActivitySignup extends AppCompatActivity {
-    String URI = "http://192.168.0.8:8000/rest/estudiantes/";
-    EditText codigo, nombre, correo, password;
-    Estudiante estudiante;
+    EditText codigo, nombres, apellido_p, apellido_m, correo, password;
+    Alumno alumno;
     ImageView signupback;
-    String id_estudiante;
+    String id_Alumno;
     String operacion;
 
     @Override
@@ -32,6 +31,7 @@ public class ActivitySignup extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         this.operacion = bundle.getString("operacion");
         inicializar();
+
 
         signupback = (ImageView)findViewById(R.id.signupback);
         signupback.setOnClickListener(new View.OnClickListener() {
@@ -45,17 +45,21 @@ public class ActivitySignup extends AppCompatActivity {
 
     public void inicializar(){
         this.codigo = (EditText) findViewById(R.id.editTextCodigo);
-        this.nombre = (EditText) findViewById(R.id.editTextNombre);
+        this.nombres = (EditText) findViewById(R.id.editTextNombre);
+        this.apellido_p = (EditText) findViewById(R.id.editTextApellidoP);
+        this.apellido_m = (EditText) findViewById(R.id.editTextApellidoM);
         this.correo = (EditText) findViewById(R.id.editTextCorreo);
         this.password = (EditText) findViewById(R.id.editTextPassword);
     }
 
     public void btn_clickGuardarPersona(View view) {
-        estudiante = new Estudiante();
-        estudiante.setId_est(codigo.getText().toString().trim());
-        estudiante.setNombre_est(nombre.getText().toString().trim());
-        estudiante.setCorreo_est(correo.getText().toString().trim());
-        estudiante.setPassword_est(password.getText().toString().trim());
+        alumno = new Alumno();
+        alumno.setCodigo(codigo.getText().toString().trim());
+        alumno.setNombres(nombres.getText().toString().trim());
+        alumno.setApellido_p(apellido_p.getText().toString().trim());
+        alumno.setApellido_m(apellido_m.getText().toString().trim());
+        alumno.setCorreo(correo.getText().toString().trim());
+        alumno.setPassword(password.getText().toString().trim());
         if (this.operacion.equals("insertar"))
             new InsertarPersona().execute();
     }
@@ -66,15 +70,17 @@ public class ActivitySignup extends AppCompatActivity {
         @Override
         public Boolean doInBackground(Void... voids) {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://192.168.0.7:9090/rest/estudiantes/");
+            HttpPost httpPost = new HttpPost("http://tercerintento-marco121942.c9users.io:80/rest/alumnos/");
             httpPost.setHeader("Content-Type", "application/json");
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("id_est", estudiante.getId_est());
-                jsonObject.put("nombre_est", estudiante.getNombre_est());
-                jsonObject.put("correo_est", estudiante.getCorreo_est());
-                jsonObject.put("password_est", estudiante.getPassword_est());
+                jsonObject.put("codigo",     alumno.getCodigo());
+                jsonObject.put("nombres",    alumno.getNombres());
+                jsonObject.put("apellido_p", alumno.getApellido_p());
+                jsonObject.put("apellido_m", alumno.getApellido_m());
+                jsonObject.put("correo",     alumno.getCorreo());
+                jsonObject.put("password",   alumno.getPassword());
                 StringEntity stringEntity = new StringEntity(jsonObject.toString());
                 httpPost.setEntity(stringEntity);
                 httpClient.execute(httpPost);
@@ -89,9 +95,11 @@ public class ActivitySignup extends AppCompatActivity {
         public void onPostExecute(Boolean result) {
             if (result){
                 Toast.makeText(ActivitySignup.this, "Registrado correctamente", Toast.LENGTH_LONG).show();
-                Intent it = new Intent(ActivitySignup.this, ProfileActivity.class);
+                Intent it = new Intent(ActivitySignup.this, NavigationActivity.class);
                 it.putExtra("codigo", codigo.getText().toString().trim());
-                it.putExtra("nombre", nombre.getText().toString().trim());
+                it.putExtra("nombres", nombres.getText().toString().trim());
+                it.putExtra("apellido_p", apellido_p.getText().toString().trim());
+                it.putExtra("apellido_m", apellido_m.getText().toString().trim());
                 it.putExtra("correo", correo.getText().toString().trim());
                 startActivity(it);
             } else {
